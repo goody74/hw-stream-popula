@@ -19,15 +19,14 @@ public class Main {
             );
         }
 
-        Stream<Person> stream;
-        stream = persons.stream();
-        long count = stream
+
+        long count = persons.stream()
                 .filter(person -> person.getAge() < 18)
                 .count();
         // System.out.println("В результате переписи населения выявилось " + count + " несовершеннолетних жителей.");
 
-        stream = persons.stream();
-        List<String> milList = stream
+
+        List<String> milList = persons.stream()
                 .filter(person -> person.getSex() == Sex.MAN)
                 .filter(person -> person.getAge() > 17)
                 .filter(person -> person.getAge() < 28)
@@ -35,13 +34,12 @@ public class Main {
                 .toList();
    //      System.out.println(milList);
 
-        stream = persons.stream();
-        List<String> higherList = stream
+
+        List<String> higherList = persons.stream()
                 .filter(person -> person.getAge() > 17)
                 .filter(person -> person.getEducation() == Education.HIGHER)
-                .filter(person -> (person.getSex() == Sex.WOMAN && person.getAge() < 61) ||
-                        (person.getSex() == Sex.MAN && person.getAge() < 66))
-                .sorted(Comparator.comparing(person -> person.getFamily()))
+                .filter(person -> person.getAge() <= (person.getSex() == Sex.MAN ? 65 : 60))
+                .sorted(Comparator.comparing(Person::getFamily))
                 .map(Person::getFamily)
                 .collect(Collectors.toList());
         System.out.println(higherList);
